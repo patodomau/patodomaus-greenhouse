@@ -8,10 +8,10 @@ export default function UnauthorizedPage() {
           Acesso negado
         </p>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight text-stone-100">
-          Sua conta do Discord nao esta na allowlist.
+          Sua conta do Discord nao tem acesso.
         </h1>
         <p className="mt-4 text-lg leading-8 text-stone-400">
-          Adicione o ID do usuario do Discord na allowlist primeiro e tente novamente.
+          Fale com o administrador e tente novamente.
         </p>
         <Link
           className="mt-8 inline-flex rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-stone-200 transition hover:border-amber-500 hover:text-amber-300"
