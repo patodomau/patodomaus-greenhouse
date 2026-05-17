@@ -34,13 +34,15 @@ python tools\build_greenhouse_catalog.py
 
 ## Authentication
 
-The app uses the same Discord allowlist pattern as Padaria do Seu Jorge.
+The app uses the same Discord allowlist pattern as Padaria do Seu Jorge, but
+with its own independent allowlist.
 
 Hardcoded bootstrap IDs live in:
 
 - `src/lib/env.ts`
 
-Additional IDs can be added with:
+The Greenhouse bootstrap currently includes only `patodomau`. Additional IDs can
+be added with:
 
 - `AUTHORIZED_DISCORD_IDS`
 

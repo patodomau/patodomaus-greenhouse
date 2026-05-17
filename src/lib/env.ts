@@ -40,10 +40,6 @@ const HARDCODED_AUTHORIZED_DISCORD_USERS: AuthorizedDiscordUser[] = [
     id: "193339239037927425",
     displayLabel: "patodomau",
   },
-  {
-    id: "1248782223163916374",
-    displayLabel: "Ladock",
-  },
 ];
 
 function normalizeDiscordId(value: string) {
