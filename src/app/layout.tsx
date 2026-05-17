@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Patodomau's Greenhouse",
-  description: "Private UO Outlands plant catalog with Discord allowlist access.",
+  description: "Patodomau's Greenhouse.",
 };
 
 export default function RootLayout({
