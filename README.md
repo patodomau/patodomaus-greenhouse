@@ -1,135 +1,165 @@
 # Patodomau's Greenhouse
 
-Private UO Outlands plant catalog.
+Patodomau's Greenhouse is a private UO Outlands plant catalog. It tracks plants
+by exact in-game graphic ID plus label, so plants that share the same name but
+use different sprites remain separate.
 
-The app displays the current plant collection by exact graphic ID, not just by
-item name. This matters because several plants share the same label while using
-different sprites.
+## Requirements
 
-## Features
+- Node.js 20 or newer
+- npm
+- Discord OAuth application for real authentication
+- Optional: Postgres-compatible database for runtime catalog reads and imports
 
-- Discord login through `next-auth`
-- allowlist-only access by Discord user ID
-- static plant catalog generated from the ClassicUO probe journal
-- card grid with sprite, origin, quantity, source label, and graphic ID
-- filters by name, label, ID, and origin
-- deployable to Vercel without a database
+The production deployment currently uses Vercel and Neon Postgres, but the app
+itself is a standard Next.js application. Without `DATABASE_URL`, it falls back
+to the generated static catalog.
 
-## Roadmap
+## Setup
 
-- Add a plantation-control tab for operational gardening state.
-- Use the site as the primary visualization layer for plantation control instead
-  of depending on the spreadsheet UI.
-- Use the existing Padaria Postgres/Neon infrastructure for persistence when the
-  mutable view is added, but keep Greenhouse isolated under the `greenhouse`
-  schema or Greenhouse-specific tables.
-- Keep unknown plant IDs first-class. New probe rows should be imported even if
-  the label, source, or sprite classification is still pending.
-
-## Data
-
-The current catalog was generated from:
-
-- `../WIP/plant-probe-2026-05-17-142127.csv`
-
-Generated files:
-
-- `src/data/plants.ts`
-- `public/plant-art/*.png`
-- `../WIP/greenhouse-catalog-summary.json`
-- `../WIP/greenhouse-catalog-import.json`
-
-To rebuild the catalog from the workspace root:
-
-```bash
-python tools\build_greenhouse_catalog.py
-```
-
-`greenhouse-catalog-import.json` is the handoff format for the future database
-importer. It contains:
-
-- `plantVarieties`: one row per exact graphic ID plus label.
-- `inventoryEntries`: one row per observed in-game item serial.
-- `unknownVarieties`: anything that still needs classification or sprite work.
-
-## Database
-
-The initial database scaffold lives in:
-
-- `db/greenhouse-schema.sql`
-
-Apply it to the same Postgres/Neon database used by Padaria when persistence is
-enabled. It creates a separate `greenhouse` schema with:
-
-- `greenhouse.plant_varieties` for exact graphic ID plus label definitions.
-- `greenhouse.plant_inventory_snapshots` for each probe/import run.
-- `greenhouse.plant_inventory_entries` for the observed plants in a snapshot.
-- `greenhouse.plant_discovery_queue` for new IDs that still need classification.
-- `greenhouse.plant_collection_current` for the latest collection view.
-
-Database commands:
-
-```bash
-npm run db:schema
-npm run db:import-catalog
-npm run db:status
-```
-
-These commands require `DATABASE_URL` in the environment. The app also uses
-`DATABASE_URL` at runtime when present, with a fallback to the generated static
-catalog.
-
-## Authentication
-
-The app uses the same Discord allowlist pattern as Padaria do Seu Jorge, but
-with its own independent allowlist.
-
-Hardcoded bootstrap IDs live in:
-
-- `src/lib/env.ts`
-
-The Greenhouse bootstrap currently includes only `patodomau`. Additional IDs can
-be added with:
-
-- `AUTHORIZED_DISCORD_IDS`
-
-Local mock login can be enabled with:
-
-- `MOCK_AUTH=true`
-
-## Environment
-
-Use `.env.example` as the base.
-
-Required for production:
-
-- `MOCK_AUTH=false`
-- `DATABASE_URL`
-- `NEXTAUTH_URL`
-- `NEXTAUTH_SECRET`
-- `DISCORD_CLIENT_ID`
-- `DISCORD_CLIENT_SECRET`
-
-Optional:
-
-- `AUTHORIZED_DISCORD_IDS`
-
-## Local Development
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Create a local environment file:
+
+```bash
+cp .env.example .env.local
+```
+
+Required local values for real Discord auth:
+
+```env
+MOCK_AUTH=false
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=replace-with-a-long-random-secret
+DISCORD_CLIENT_ID=replace-with-discord-client-id
+DISCORD_CLIENT_SECRET=replace-with-discord-client-secret
+```
+
+For local development without Discord:
+
+```env
+MOCK_AUTH=true
+NEXTAUTH_SECRET=local-development-secret
+```
+
+Optional database value:
+
+```env
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+```
+
+## Run
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
 Open `http://localhost:3000`.
 
-## Deployment
+Build for production:
 
-Create a Vercel project for this directory and configure the Discord OAuth
-callback:
-
-```text
-https://<your-domain>/api/auth/callback/discord
+```bash
+npm run build
+npm run start
 ```
 
-Then set the production environment variables listed above and deploy.
+## Database
+
+Apply the Greenhouse schema:
+
+```bash
+npm run db:schema
+```
+
+Import the generated catalog payload:
+
+```bash
+npm run db:import-catalog
+```
+
+Check database counts:
+
+```bash
+npm run db:status
+```
+
+All database commands require `DATABASE_URL`. The schema is isolated under
+`greenhouse.*`.
+
+## Catalog Generation
+
+The app consumes generated static files:
+
+- `src/data/plants.ts`
+- `public/plant-art/*.png`
+
+From the workspace root, rebuild them with:
+
+```bash
+npm run greenhouse:catalog
+```
+
+The generator also writes:
+
+- `../WIP/greenhouse-catalog-summary.json`
+- `../WIP/greenhouse-catalog-import.json`
+
+`greenhouse-catalog-import.json` is the database import payload and includes
+known varieties, inventory entries, and unknown varieties that need
+classification.
+
+## Quality Checks
+
+Format code:
+
+```bash
+npm run format
+```
+
+Run checks:
+
+```bash
+npm run check
+```
+
+Install Git hooks with `pre-commit`:
+
+```bash
+pipx install pre-commit
+pre-commit install
+```
+
+The hooks run Black for Python files, plus Prettier, ESLint, and TypeScript
+checks before commit.
+
+Prettier uses a 100-character print width. The line-length check enforces a
+120-character hard limit for non-generated, non-class-string lines.
+
+## Deployment
+
+Set these environment variables on the hosting provider:
+
+```env
+MOCK_AUTH=false
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require
+NEXTAUTH_URL=https://your-domain.example
+NEXTAUTH_SECRET=replace-with-a-long-random-secret
+DISCORD_CLIENT_ID=replace-with-discord-client-id
+DISCORD_CLIENT_SECRET=replace-with-discord-client-secret
+```
+
+Configure the Discord OAuth redirect URL:
+
+```text
+https://your-domain.example/api/auth/callback/discord
+```
+
+## License
+
+MIT

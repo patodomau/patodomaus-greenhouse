@@ -163,5 +163,7 @@ function buildOrigins(plants: PlantCatalogItem[]) {
     });
   }
 
-  return [...origins.values()].sort((left, right) => left.rank - right.rank || left.name.localeCompare(right.name));
+  return [...origins.values()].sort(
+    (left, right) => left.rank - right.rank || left.name.localeCompare(right.name),
+  );
 }

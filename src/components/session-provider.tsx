@@ -12,4 +12,3 @@ type Props = {
 export function AppSessionProvider({ children, session }: Props) {
   return <SessionProvider session={session}>{children}</SessionProvider>;
 }
-

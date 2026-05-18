@@ -3,8 +3,7 @@ export type PlantOrigin =
   | "Very Rare Seed"
   | "Extremely Rare Seed"
   | "Dungeon Seed"
-  | "Event Plant"
-;
+  | "Event Plant";
 
 export type PlantCatalogItem = {
   id: number;
@@ -23,9 +22,30 @@ export type PlantCatalogItem = {
 };
 
 export const plantOrigins = [
-  { name: "Uncommon Seed", rank: 20, seedHue: "#62b35c", tone: "uncommon", count: 116, varieties: 48 },
-  { name: "Very Rare Seed", rank: 30, seedHue: "#4ea8de", tone: "veryRare", count: 21, varieties: 14 },
-  { name: "Extremely Rare Seed", rank: 40, seedHue: "#d4a72c", tone: "extremelyRare", count: 16, varieties: 12 },
+  {
+    name: "Uncommon Seed",
+    rank: 20,
+    seedHue: "#62b35c",
+    tone: "uncommon",
+    count: 116,
+    varieties: 48,
+  },
+  {
+    name: "Very Rare Seed",
+    rank: 30,
+    seedHue: "#4ea8de",
+    tone: "veryRare",
+    count: 21,
+    varieties: 14,
+  },
+  {
+    name: "Extremely Rare Seed",
+    rank: 40,
+    seedHue: "#d4a72c",
+    tone: "extremelyRare",
+    count: 16,
+    varieties: 12,
+  },
   { name: "Dungeon Seed", rank: 50, seedHue: "#b65cff", tone: "dungeon", count: 74, varieties: 30 },
   { name: "Event Plant", rank: 60, seedHue: "#ff6b6b", tone: "event", count: 17, varieties: 15 },
 ] as const;
@@ -1077,7 +1097,17 @@ export const plants: PlantCatalogItem[] = [
     seedHue: "#b65cff",
     specialHue: "",
     quantity: 9,
-    serials: ["1506929559", "1506929560", "1506929561", "1506929562", "1506929563", "1506929564", "1506929565", "1506929566", "1506929567"],
+    serials: [
+      "1506929559",
+      "1506929560",
+      "1506929561",
+      "1506929562",
+      "1506929563",
+      "1506929564",
+      "1506929565",
+      "1506929566",
+      "1506929567",
+    ],
     containers: ["1230806168"],
     image: "/plant-art/22873.png",
   },

@@ -70,7 +70,7 @@ export function PlantCatalog({ plants, origins }: Props) {
         </label>
 
         <div className="rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3">
-          <p className="text-xs uppercase tracking-[0.2em] text-stone-500">Resultado</p>
+          <p className="text-xs tracking-[0.2em] text-stone-500 uppercase">Resultado</p>
           <p className="mt-1 text-sm font-semibold text-stone-100">
             {filteredPlants.length} sprites, {totalQuantity} plantas
           </p>
@@ -79,7 +79,7 @@ export function PlantCatalog({ plants, origins }: Props) {
 
       <div className="flex flex-wrap gap-2 px-1">
         <button
-          className={`rounded-lg border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] ${
+          className={`rounded-lg border px-3 py-2 text-xs font-semibold tracking-[0.16em] uppercase ${
             origin === "all"
               ? "border-amber-300/50 bg-amber-400/15 text-amber-100"
               : "border-white/10 bg-white/[0.03] text-stone-400 hover:border-amber-300/40 hover:text-stone-100"
@@ -91,7 +91,7 @@ export function PlantCatalog({ plants, origins }: Props) {
         </button>
         {origins.map((item) => (
           <button
-            className={`rounded-lg border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] ${
+            className={`rounded-lg border px-3 py-2 text-xs font-semibold tracking-[0.16em] uppercase ${
               origin === item.name
                 ? "border-amber-300/50 bg-amber-400/15 text-amber-100"
                 : "border-white/10 bg-white/[0.03] text-stone-400 hover:border-amber-300/40 hover:text-stone-100"
@@ -131,7 +131,7 @@ export function PlantCatalog({ plants, origins }: Props) {
             <div className="min-w-0 space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <h2 className="break-words text-base font-semibold leading-6 text-stone-100">
+                  <h2 className="text-base leading-6 font-semibold break-words text-stone-100">
                     {plant.name}
                   </h2>
                   <p className="mt-1 font-mono text-xs text-stone-500">ID {plant.id}</p>

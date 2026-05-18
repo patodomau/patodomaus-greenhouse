@@ -13,7 +13,7 @@ export default async function Home() {
     <main className="mx-auto flex w-full max-w-[1480px] flex-1 flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
       <section className="grid gap-5 border border-white/10 bg-[#101723]/88 p-5 shadow-[0_24px_70px_rgba(0,0,0,0.38)] backdrop-blur lg:grid-cols-[1fr_340px]">
         <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-300">
+          <p className="text-xs font-semibold tracking-[0.32em] text-amber-300 uppercase">
             Patodomau&apos;s Greenhouse
           </p>
           <div className="space-y-2">
@@ -29,12 +29,14 @@ export default async function Home() {
 
         <aside className="flex flex-col justify-between gap-4 border border-amber-400/20 bg-[linear-gradient(135deg,rgba(38,30,16,0.9),rgba(18,24,34,0.92))] p-4">
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-300">
+            <p className="text-xs font-semibold tracking-[0.25em] text-amber-300 uppercase">
               Sessao
             </p>
             <p className="text-sm leading-6 text-stone-300">Conectado como {displayName}</p>
             {session.user.discordId ? (
-              <p className="font-mono text-xs text-stone-500">Discord ID {session.user.discordId}</p>
+              <p className="font-mono text-xs text-stone-500">
+                Discord ID {session.user.discordId}
+              </p>
             ) : null}
           </div>
           <AuthButtons authenticated />
@@ -56,7 +58,7 @@ export default async function Home() {
 function MetricCard({ label, value }: { label: string; value: string }) {
   return (
     <article className="rounded-lg border border-white/10 bg-[#121a26]/88 p-4 shadow-[0_18px_42px_rgba(0,0,0,0.26)]">
-      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-amber-300">{label}</p>
+      <p className="text-xs font-semibold tracking-[0.24em] text-amber-300 uppercase">{label}</p>
       <p className="mt-3 text-3xl font-semibold tracking-tight text-stone-100">{value}</p>
     </article>
   );

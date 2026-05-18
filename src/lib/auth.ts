@@ -106,9 +106,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account, profile }) {
       if (account?.provider === "credentials") {
         token.discordId =
-          typeof token.sub === "string" && token.sub.trim() !== ""
-            ? token.sub
-            : "mock-owner";
+          typeof token.sub === "string" && token.sub.trim() !== "" ? token.sub : "mock-owner";
       } else if (account?.provider === "discord" && account.providerAccountId) {
         token.discordId = account.providerAccountId;
       } else if (!token.discordId && profile && "id" in profile) {

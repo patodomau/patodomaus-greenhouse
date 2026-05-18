@@ -1,0 +1,29 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black --check .
+        language: python
+        types_or: [python, pyi]
+        additional_dependencies: ["black==25.1.0"]
+
+  - repo: local
+    hooks:
+      - id: prettier-check
+        name: prettier check
+        entry: npm run format:check
+        language: system
+        pass_filenames: false
+
+      - id: eslint
+        name: eslint
+        entry: npm run lint
+        language: system
+        pass_filenames: false
+
+      - id: typecheck
+        name: typescript typecheck
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
