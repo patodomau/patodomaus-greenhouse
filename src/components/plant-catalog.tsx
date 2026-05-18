@@ -286,15 +286,15 @@ export function PlantCatalog({ plants, origins }: Props) {
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {filteredPlants.map((plant) => (
           <article
-            className="grid min-h-[210px] grid-cols-[104px_1fr] gap-4 rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(18,26,38,0.94),rgba(12,17,24,0.96))] p-4 shadow-[0_16px_36px_rgba(0,0,0,0.22)]"
+            className="grid min-h-[210px] grid-cols-[88px_1fr] gap-4 rounded-lg border border-white/10 bg-[linear-gradient(180deg,rgba(18,26,38,0.94),rgba(12,17,24,0.96))] p-4 shadow-[0_16px_36px_rgba(0,0,0,0.22)]"
             key={`${plant.id}-${plant.label}`}
           >
-            <div className="grid h-32 w-24 place-items-center overflow-hidden rounded-lg border border-white/10 bg-[#080d12] p-2">
+            <div className="flex h-28 w-20 items-center justify-center rounded-lg border border-white/10 bg-[#080d12]">
               {plant.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   alt=""
-                  className="h-full w-full object-contain object-center [image-rendering:pixelated]"
+                  className="max-h-[104px] max-w-[72px] object-contain [image-rendering:pixelated]"
                   src={plant.image}
                 />
               ) : (
