@@ -22,7 +22,7 @@ export function AuthButtons({
         onClick={() => signOut({ callbackUrl: "/sign-in" })}
         type="button"
       >
-        Sair
+        Sign out
       </button>
     );
   }
@@ -44,7 +44,7 @@ export function AuthButtons({
       }}
       type="button"
     >
-      {provider === "mock" ? "Entrar no painel mock" : "Entrar com Discord"}
+      {provider === "mock" ? "Enter mock dashboard" : "Sign in with Discord"}
     </button>
   );
 }

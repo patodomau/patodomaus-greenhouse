@@ -21,11 +21,11 @@ export default async function SignInPage() {
             Patodomau&apos;s Greenhouse
           </p>
           <h1 className="max-w-xl text-4xl font-semibold tracking-tight text-stone-100 sm:text-5xl">
-            Entrar
+            Sign In
           </h1>
           {mockMode ? (
             <p className="inline-flex w-fit rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold tracking-[0.25em] text-amber-200 uppercase">
-              Auth mock habilitado
+              Mock auth enabled
             </p>
           ) : null}
         </div>
@@ -33,7 +33,7 @@ export default async function SignInPage() {
         <div className="rounded-lg border border-amber-400/20 bg-[linear-gradient(180deg,rgba(35,27,14,0.9),rgba(21,24,31,0.92))] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
           <div className="space-y-4">
             <p className="text-sm font-semibold tracking-[0.25em] text-amber-300 uppercase">
-              Acesso
+              Access
             </p>
             <AuthButtons
               authenticated={false}
