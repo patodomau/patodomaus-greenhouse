@@ -67,6 +67,18 @@ enabled. It creates a separate `greenhouse` schema with:
 - `greenhouse.plant_discovery_queue` for new IDs that still need classification.
 - `greenhouse.plant_collection_current` for the latest collection view.
 
+Database commands:
+
+```bash
+npm run db:schema
+npm run db:import-catalog
+npm run db:status
+```
+
+These commands require `DATABASE_URL` in the environment. The app also uses
+`DATABASE_URL` at runtime when present, with a fallback to the generated static
+catalog.
+
 ## Authentication
 
 The app uses the same Discord allowlist pattern as Padaria do Seu Jorge, but
@@ -92,6 +104,7 @@ Use `.env.example` as the base.
 Required for production:
 
 - `MOCK_AUTH=false`
+- `DATABASE_URL`
 - `NEXTAUTH_URL`
 - `NEXTAUTH_SECRET`
 - `DISCORD_CLIENT_ID`

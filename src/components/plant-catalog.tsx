@@ -1,18 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { PlantCatalogItem } from "@/data/plants";
-
-type OriginOption = {
-  name: string;
-  count: number;
-  varieties: number;
-  seedHue: string;
-};
+import type { PlantCatalogItem, PlantOriginOption } from "@/lib/catalog";
 
 type Props = {
   plants: PlantCatalogItem[];
-  origins: readonly OriginOption[];
+  origins: readonly PlantOriginOption[];
 };
 
 const toneClasses: Record<string, string> = {

@@ -1,10 +1,11 @@
 import { AuthButtons } from "@/components/auth-buttons";
 import { PlantCatalog } from "@/components/plant-catalog";
-import { plantCatalogSummary, plantOrigins, plants } from "@/data/plants";
 import { requireAuthSession } from "@/lib/auth";
+import { getPlantCatalogData } from "@/lib/catalog";
 
 export default async function Home() {
   const session = await requireAuthSession();
+  const catalog = await getPlantCatalogData();
   const displayName =
     session.user.displayLabel ?? session.user.name ?? session.user.email ?? session.user.discordId;
 
@@ -41,13 +42,13 @@ export default async function Home() {
       </section>
 
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Plantas" value={plantCatalogSummary.totalPlants.toLocaleString("pt-BR")} />
-        <MetricCard label="Sprites" value={plantCatalogSummary.varieties.toLocaleString("pt-BR")} />
-        <MetricCard label="Nomes" value={plantCatalogSummary.uniqueNames.toLocaleString("pt-BR")} />
-        <MetricCard label="Origens" value={plantCatalogSummary.uniqueOrigins.toLocaleString("pt-BR")} />
+        <MetricCard label="Plantas" value={catalog.summary.totalPlants.toLocaleString("pt-BR")} />
+        <MetricCard label="Sprites" value={catalog.summary.varieties.toLocaleString("pt-BR")} />
+        <MetricCard label="Nomes" value={catalog.summary.uniqueNames.toLocaleString("pt-BR")} />
+        <MetricCard label="Origens" value={catalog.summary.uniqueOrigins.toLocaleString("pt-BR")} />
       </section>
 
-      <PlantCatalog origins={plantOrigins} plants={plants} />
+      <PlantCatalog origins={catalog.origins} plants={catalog.plants} />
     </main>
   );
 }
