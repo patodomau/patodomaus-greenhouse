@@ -77,6 +77,12 @@ Apply the Greenhouse schema:
 npm run db:schema
 ```
 
+Seed bootstrap Discord users:
+
+```bash
+npm run db:seed-users
+```
+
 Import the generated catalog payload:
 
 ```bash
@@ -90,7 +96,8 @@ npm run db:status
 ```
 
 All database commands require `DATABASE_URL`. The schema is isolated under
-`greenhouse.*`.
+`greenhouse.*`. Runtime authentication uses `greenhouse.authorized_users` when
+`DATABASE_URL` is configured, with bootstrap users as a local/fallback path.
 
 ## Catalog Generation
 

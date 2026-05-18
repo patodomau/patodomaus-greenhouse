@@ -5,6 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { getDatabaseAuthorizedUser, touchDatabaseAuthorizedUser } from "@/lib/authorized-users";
 import {
   getAuthorizedDiscordDisplayLabel,
   getAuthorizedDiscordIds,
@@ -16,6 +17,24 @@ import {
 
 function isMockAuthEnabled() {
   return isEnvFlagEnabled("MOCK_AUTH");
+}
+
+async function resolveAuthorizedUser(discordUserId: string) {
+  const databaseResult = await getDatabaseAuthorizedUser(discordUserId);
+  if (databaseResult.status === "ready") {
+    return databaseResult.user?.active ? databaseResult.user : null;
+  }
+
+  if (!isDiscordIdPreAuthorized(discordUserId)) {
+    return null;
+  }
+
+  return {
+    discordUserId,
+    displayLabel: getAuthorizedDiscordDisplayLabel(discordUserId) ?? discordUserId,
+    role: "viewer" as const,
+    active: true,
+  };
 }
 
 function resolveSecret() {
@@ -48,7 +67,8 @@ function buildProviders() {
           const displayLabel = getAuthorizedDiscordDisplayLabel(userId);
           const name = displayLabel ?? requestedName;
 
-          if (!isDiscordIdPreAuthorized(userId)) {
+          const authorizedUser = await resolveAuthorizedUser(userId);
+          if (!authorizedUser) {
             return null;
           }
 
@@ -97,10 +117,12 @@ export const authOptions: NextAuthOptions = {
         return "/unauthorized";
       }
 
-      if (!isDiscordIdPreAuthorized(discordId)) {
+      const authorizedUser = await resolveAuthorizedUser(discordId);
+      if (!authorizedUser) {
         return "/unauthorized";
       }
 
+      await touchDatabaseAuthorizedUser(discordId);
       return true;
     },
     async jwt({ token, account, profile }) {
@@ -114,7 +136,11 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (typeof token.discordId === "string" && token.discordId.trim() !== "") {
-        token.displayLabel = getAuthorizedDiscordDisplayLabel(token.discordId) ?? undefined;
+        const authorizedUser = await resolveAuthorizedUser(token.discordId);
+        token.displayLabel =
+          authorizedUser?.displayLabel ??
+          getAuthorizedDiscordDisplayLabel(token.discordId) ??
+          undefined;
         if (token.displayLabel) {
           token.name = token.displayLabel;
         }

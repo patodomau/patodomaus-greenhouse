@@ -1,3 +1,5 @@
+import bootstrapAuthorizedUsers from "@/data/bootstrap-authorized-users.json";
+
 function readEnv(name: string) {
   const value = process.env[name];
   if (typeof value !== "string") {
@@ -33,18 +35,20 @@ export function isEnvFlagEnabled(name: string) {
 type AuthorizedDiscordUser = {
   id: string;
   displayLabel: string;
+  role: "owner" | "admin" | "viewer";
 };
 
-const HARDCODED_AUTHORIZED_DISCORD_USERS: AuthorizedDiscordUser[] = [
-  {
-    id: "193339239037927425",
-    displayLabel: "patodomau",
-  },
-  {
-    id: "193050244630577153",
-    displayLabel: "Ynhamy",
-  },
-];
+const AUTHORIZED_USER_ROLES = new Set(["owner", "admin", "viewer"]);
+
+const HARDCODED_AUTHORIZED_DISCORD_USERS: AuthorizedDiscordUser[] = bootstrapAuthorizedUsers.map(
+  (user) => ({
+    id: user.id,
+    displayLabel: user.displayLabel,
+    role: AUTHORIZED_USER_ROLES.has(user.role)
+      ? (user.role as AuthorizedDiscordUser["role"])
+      : "viewer",
+  }),
+);
 
 function normalizeDiscordId(value: string) {
   return value.trim();

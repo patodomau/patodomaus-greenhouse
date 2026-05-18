@@ -18,7 +18,8 @@ const [counts] = await sql`
     (select count(*)::integer from greenhouse.plant_inventory_entries) as inventory_entries,
     (select count(*)::integer from greenhouse.plant_collection_current) as current_varieties,
     (select coalesce(sum(quantity), 0)::integer from greenhouse.plant_collection_current) as current_plants,
-    (select count(*)::integer from greenhouse.plant_discovery_queue where status = 'new') as new_discoveries
+    (select count(*)::integer from greenhouse.plant_discovery_queue where status = 'new') as new_discoveries,
+    (select count(*)::integer from greenhouse.authorized_users where active = true) as active_users
 `;
 
 console.log(JSON.stringify(counts, null, 2));
